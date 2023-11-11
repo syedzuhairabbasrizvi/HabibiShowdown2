@@ -5,13 +5,13 @@
 
 class Character {
 private:
-    std::string name;
+    string name;
     int health;
     int skillBar;
 
 public:
     // constructor
-    Character(std::string n, int h, int s);
+    Character(string n, int h, int s);
 
     // movement func
     void move();
