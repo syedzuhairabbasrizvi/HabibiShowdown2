@@ -1,7 +1,8 @@
 # HabibiShowdown2
 An Object Oriented Programming and Design Methodologies project for the course Object Oriented Programming and Design Methodologies created using C++, SDL, and the knowledge of Object Oriented Programming and Design Methodologies.
 
-Current status: shows an image saved in downloads
+Current status: shows an image saved in downloads.
+
 Update image path according to your machine (line 55).
 
 Compile command:
