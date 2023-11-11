@@ -1,15 +1,27 @@
+#pragma once
+
 #include <iostream>
 #include <string>
 
-using namespace std;
-
-class Character{
+class Character {
 private:
-  string name;
-  int health;
-  int skillBar;
+    std::string name;
+    int health;
+    int skillBar;
 
 public:
-  void move(){}
-    
+    // constructor
+    Character(std::string n, int h, int s);
+
+    // movement func
+    void move();
+
+    // attack func
+    void attack();
+
+    // special move func
+    void specialMove();
+
+    // defend func
+    void defend();
 };
