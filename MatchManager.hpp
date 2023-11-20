@@ -15,5 +15,7 @@ public:
 
     // Function to print the game state
     void printGameState() const;
+    void setGameState(string newState);
+    string getGameState() const;
 };
 
