@@ -1,8 +1,8 @@
-#include <SDL.h>
+
 #include <SDL_image.h>
 #include "MatchManager.hpp"
+#include "Character.hpp"
 #include "SDLHelper.hpp"
-#include <unordered_set>
 
 using namespace std;
 
@@ -18,11 +18,11 @@ int main(int argc, char* args[]) {
         return -1;
 
     //loading images using SDL
-    SDL_Surface* beginSurface = IMG_Load("C:/mingw_dev_lib/project/maxresdefault.jpg");
-    SDL_Surface* matchSurface = IMG_Load("C:/mingw_dev_lib/project/bg.gif");
-    SDL_Surface* endSurface = IMG_Load("C:/mingw_dev_lib/project/youdied.jpg");
-    SDL_Surface* playerOneSurface = IMG_Load("C:/mingw_dev_lib/project/egg.png");
-    SDL_Surface* playerTwoSurface = IMG_Load("C:/mingw_dev_lib/project/egg.png");
+    SDL_Surface* beginSurface = IMG_Load("E:/HUNotes/Sophomore_Fall/2_OOP/oopProject/HabibiShowdown2-main/start.png");
+    SDL_Surface* matchSurface = IMG_Load("E:/HUNotes/Sophomore_Fall/2_OOP/oopProject/HabibiShowdown2-main/bg.jpg");
+    SDL_Surface* endSurface = IMG_Load("E:/HUNotes/Sophomore_Fall/2_OOP/oopProject/HabibiShowdown2-main/gameover.png");
+    SDL_Surface* playerOneSurface = IMG_Load("E:/HUNotes/Sophomore_Fall/2_OOP/oopProject/HabibiShowdown2-main/pineapple.png");
+    SDL_Surface* playerTwoSurface = IMG_Load("E:/HUNotes/Sophomore_Fall/2_OOP/oopProject/HabibiShowdown2-main/watermelon.png");
 
     if (beginSurface == nullptr || matchSurface == nullptr || endSurface == nullptr || playerOneSurface == nullptr || playerTwoSurface == nullptr) //error handling if an image doesnt load properly 
     {
@@ -50,14 +50,14 @@ int main(int argc, char* args[]) {
         return -1;
     }
 
-    SDL_Rect orig1Rect = {50, 50, 50, 50};  //beginning positions of my characters
-    SDL_Rect orig2Rect = {200, 200, 50, 50};
+    SDL_Rect orig1Rect = {50, 500, 50, 50};  //beginning positions of my characters
+    SDL_Rect orig2Rect = {200, 500, 50, 50};
     
     SDL_Rect player1Rect = orig1Rect;  //starting position of players
     SDL_Rect player2Rect = orig2Rect; 
 
-    
-
+    Character character1("Kyo", 100, 100);
+    Character character2("Iori", 100, 100);
     //initial state and texture
 
     MatchManager mm{"Begin"}; //begin state constructor
@@ -79,23 +79,8 @@ int main(int argc, char* args[]) {
                 pressedKeys.insert(e.key.keysym.sym); //record the key pressed until it is released
 
                 //player 1 movement using WASD, may replace with a function instead
-                if (pressedKeys.count(SDLK_w)) 
-                    player1Rect.y -= 10;
-                if (pressedKeys.count(SDLK_a))
-                    player1Rect.x -= 10;
-                if (pressedKeys.count(SDLK_s))
-                    player1Rect.y += 10;
-                if (pressedKeys.count(SDLK_d))
-                    player1Rect.x += 10;
-                //player 2 movement using udlr, see above
-                if (pressedKeys.count(SDLK_UP))
-                    player2Rect.y -= 10;
-                if (pressedKeys.count(SDLK_LEFT))
-                    player2Rect.x -= 10;
-                if (pressedKeys.count(SDLK_DOWN))
-                    player2Rect.y += 10;
-                if (pressedKeys.count(SDLK_RIGHT))
-                    player2Rect.x += 10;
+                character1.move(player1Rect, pressedKeys, 1);
+                character2.move(player2Rect, pressedKeys, 2);
             } 
             else if (e.type == SDL_KEYUP) //key released, free from pressed keys
                 pressedKeys.erase(e.key.keysym.sym);
@@ -123,6 +108,13 @@ int main(int argc, char* args[]) {
             }
         }
 
+        if (character1.getJumpState() || character2.getJumpState())
+            {
+                if (character1.getJumpState())
+                    character1.gravity(player1Rect);
+                else
+                    character2.gravity(player2Rect);
+            }
         //clear the screen
         SDL_RenderClear(renderer);
 
