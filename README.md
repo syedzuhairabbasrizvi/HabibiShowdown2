@@ -6,5 +6,5 @@ Current status: shows an image saved in downloads.
 Update image path according to your machine (line 55).
 
 Compile command:
-g++ -g PlayerCharacter.cpp health.cpp Character.cpp SDLHelper.cpp MatchManager.cpp main2.cpp - IC:\mingw_dev_lib\include\SDL2 -LC:\mingw_dev_lib\lib 
+g++ -g PlayerCharacter.cpp health.cpp Character.cpp SDLHelper.cpp MatchManager.cpp main2.cpp -IC:\mingw_dev_lib\include\SDL2 -LC:\mingw_dev_lib\lib 
 -w -lmingw32 -lSDL2main -lSDL2 -lSDL2_image
