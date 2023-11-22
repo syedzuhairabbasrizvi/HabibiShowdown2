@@ -27,13 +27,19 @@ bool initSDL(SDL_Window*& window, SDL_Renderer*& renderer, const char* title, in
         return false;
     }
 
+    //initialize truetype in order to use fonts
+    if (TTF_Init() < 0) {
+        SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError());
+        return false;
+    }
     return true;
 }
 
 void closeSDL(SDL_Window*& window, SDL_Renderer*& renderer) {
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
-
+    
+    TTF_Quit();
     // Quit SDL_image
     IMG_Quit();
 
