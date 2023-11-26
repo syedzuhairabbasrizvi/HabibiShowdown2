@@ -2,6 +2,24 @@
 
 #include "SDLHelper.hpp"
 
+SDL_Texture* loadTexture(const char* imagePath, SDL_Renderer* renderer) {
+    SDL_Surface* surface = IMG_Load(imagePath);
+    if (surface == nullptr) {
+        SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Unable to load image %s! SDL_image Error: %s\n", imagePath, IMG_GetError());
+        return nullptr;
+    }
+
+    SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
+    SDL_FreeSurface(surface);
+
+    if (texture == nullptr) {
+        SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Unable to create texture from surface! SDL_Error: %s\n", SDL_GetError());
+        return nullptr;
+    }
+
+    return texture;
+}
+
 bool initSDL(SDL_Window*& window, SDL_Renderer*& renderer, const char* title, int width, int height) {
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
         SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
@@ -27,19 +45,13 @@ bool initSDL(SDL_Window*& window, SDL_Renderer*& renderer, const char* title, in
         return false;
     }
 
-    //initialize truetype in order to use fonts
-    if (TTF_Init() < 0) {
-        SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError());
-        return false;
-    }
     return true;
 }
 
 void closeSDL(SDL_Window*& window, SDL_Renderer*& renderer) {
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
-    
-    TTF_Quit();
+
     // Quit SDL_image
     IMG_Quit();
 
