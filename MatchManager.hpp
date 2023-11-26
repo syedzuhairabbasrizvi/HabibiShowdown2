@@ -2,6 +2,9 @@
 
 #include <iostream>
 #include <string>
+#include <unordered_set>
+
+#include "PlayerCharacter.hpp"
 
 using namespace std;
 
@@ -17,5 +20,6 @@ public:
     void printGameState() const;
     void setGameState(string newState);
     string getGameState() const;
+    
 };
 
