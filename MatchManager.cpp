@@ -1,20 +1,25 @@
-#include "MatchManager.hpp"
+#pragma once
 
-// Constructor implementation
-MatchManager::MatchManager(const string initialState) : gameState(initialState) {}
+#include <iostream>
+#include <string>
+#include <unordered_set>
 
-// Function to print the game state implementation
-void MatchManager::printGameState() const 
-{
-    std::cout << "Current Game State: " << gameState << std::endl;
-}
+#include "PlayerCharacter.hpp"
 
-string MatchManager::getGameState() const
-{
-    return gameState;
-}
+using namespace std;
 
-void MatchManager::setGameState(string newState)  
-{
-    gameState = newState;
-}
+class MatchManager {
+private:
+    string gameState;
+
+public:
+    // Constructor
+    MatchManager(const string initialState);
+
+    // Function to print the game state
+    void printGameState() const;
+    void setGameState(string newState);
+    string getGameState() const;
+    
+};
+
