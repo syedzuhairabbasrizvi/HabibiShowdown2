@@ -1,30 +1,33 @@
 #pragma once
 
+#include <SDL.h>
 #include <iostream>
 #include <string>
 #include <unordered_set>
-#include <SDL.h>
 
 using namespace std;
 
 class Character {
-private:
+public:
     std::string name;
     int health;
     int skillBar;
     bool isJumping; // New variable to track the jumping state
     int jumpStartTime;
+    bool isAttack;
+    int attackStartTime;
+    bool isHit;
+    int hitStartTime;
+    SDL_Rect hitbox;
 
 public:
     // constructor
-    Character(string n, int h, int s);
+    Character(string n, int h, int s, SDL_Rect hb);
 
-    // movement func
-    void move(SDL_Rect& characterRect, unordered_set<SDL_Keycode>& pressedKeys,int playerNumber);
 
     bool getJumpState();
 
-    void gravity(SDL_Rect& characterRect);
+    bool getAttackState();
 
     // attack func
     void attack();
@@ -34,4 +37,7 @@ public:
 
     // defend func
     void defend();
+
+    SDL_Rect getHitbox() const;
+
 };
