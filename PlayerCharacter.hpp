@@ -1,15 +1,29 @@
 #pragma once
 
-#include "character.hpp"
+#include "Character.hpp"
+#include <unordered_set>
+#include "health.hpp"
 
-class PlayerCharacter : public Character {
-private:
-    string playerName;
-    int playerNo;
+#include <SDL.h>
 
-public:
-    // constructor
-    PlayerCharacter(std::string n, int h, int s, string pN, int pNo);
+#include <iostream>
+#include <string>
 
-    void InputProcessor();
+using namespace std;
+
+class PlayerCharacter : public Character
+{
+    private:
+    int playerNum;
+    SDL_Keycode rightKey, leftKey, upKey, attackKey;
+    Health playerHealth;
+
+    public:
+
+    PlayerCharacter(std::string, int, int, int, SDL_Rect);
+    void renderHealth(SDL_Renderer* renderer);
+    void gravity(PlayerCharacter& opponent);
+    void move(unordered_set<SDL_Keycode>& pressedKeys, PlayerCharacter& opponent);
+    void attackHandler(unordered_set<SDL_Keycode>& pressedKeys, PlayerCharacter& opponent);
+    void takeDamage(int damage);
 };
