@@ -26,4 +26,5 @@ class PlayerCharacter : public Character
     void move(unordered_set<SDL_Keycode>& pressedKeys, PlayerCharacter& opponent);
     void attackHandler(unordered_set<SDL_Keycode>& pressedKeys, PlayerCharacter& opponent);
     void takeDamage(int damage);
+    bool getMovingState(unordered_set<SDL_Keycode>& pressedKeys);
 };
