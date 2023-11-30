@@ -6,6 +6,8 @@
 #include "PlayerCharacter.hpp"
 #include "SDLHelper.hpp"
 #include "health.hpp"
+#include "animator.hpp"
+
 using namespace std;
 
 class GameLoop
@@ -25,14 +27,33 @@ class GameLoop
 
         bool attackOne, attackTwo;
 
+        Animator bgAnimator;
         SDL_Texture* beginTexture;
         SDL_Texture* matchTexture;
         SDL_Texture* endTexture;
-        SDL_Texture* playerOneTexture;
+        SDL_Texture* playerOneTextureA;
+        SDL_Texture* playerOneTextureB;
+        SDL_Texture* playerOneTextureC;
+        SDL_Texture* playerOneTextureD;
+        SDL_Texture* playerOneTextureE;
+        SDL_Texture* playerTwoTextureA;
+        SDL_Texture* playerTwoTextureB;
+        SDL_Texture* playerTwoTextureC;
+        SDL_Texture* playerTwoTextureD;
+        SDL_Texture* playerTwoTextureE;
         SDL_Texture* playerTwoTexture;
         SDL_Texture* playerOneAttackTexture;
         SDL_Texture* playerTwoAttackTexture;
-
+        SDL_Texture* playerOneMoveTexture;
+        SDL_Texture* playerTwoMoveTexture;
+        SDL_Texture* bg0;
+        SDL_Texture* bg1;
+        SDL_Texture* bg2;
+        SDL_Texture* bg3;
+        SDL_Texture* bg4;
+        SDL_Texture* bg5;
+        SDL_Texture* bg6;
+        SDL_Texture* bg7;
         MatchManager mm;
 
         PlayerCharacter* character1;
