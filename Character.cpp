@@ -5,6 +5,12 @@ Character::Character(std::string n, int h, int s, SDL_Rect hb) : name(n), health
 // Add this to your character.cpp file
 
 
+void Character::storeNeutralFrame(SDL_Texture* frame)
+{
+    neutralAnimator.pushFrame(frame);
+}
+
+
 bool Character::getJumpState() {
     return isJumping;
 }
