@@ -1,6 +1,7 @@
 
 #include "PlayerCharacter.hpp"
 
+#include <iostream>
 PlayerCharacter::PlayerCharacter(std::string n, int h, int s, int playerNumber, SDL_Rect hb) : Character(n, h, s, hb) , playerHealth(h) {
 
     playerNum=playerNumber;
@@ -26,37 +27,67 @@ void PlayerCharacter::renderHealth(SDL_Renderer* renderer)
 }
 
 void PlayerCharacter::gravity(PlayerCharacter& opponent) {
+    int static cooldown1 = 0;
+    int static cooldown2 = 0;
+    int cooldown;
+    if (opponent.playerNum == 2)
+        cooldown = cooldown1;
+    else
+        cooldown = cooldown2;
     if (isJumping){
         Uint32 currentTime = SDL_GetTicks();
         Uint32 jumpDuration = currentTime - jumpStartTime;
+        cooldown += 1;
 
         // Adjust the jump duration and gravity speed based on your preferences
-        if (jumpDuration < 250 ) 
+        if (jumpDuration < 350 ) 
         {  // Adjust the jump duration (milliseconds)
-            
-            hitbox.y -= 1;  // Adjust the jump height
+            if (cooldown >= 3)
+            {
+                cooldown = 0;
+                hitbox.y -= 2;
+            }
         } 
         else 
         {
             SDL_Rect opponentHitbox = opponent.getHitbox();
             SDL_Rect newHitbox = hitbox;
-            newHitbox.y += 1;
+            
+            if (cooldown >= 3)
+            {
+                newHitbox.y += 2;
+            }
             if ((SDL_HasIntersection(&newHitbox, &opponentHitbox)))
                 hitbox.x += 25;
             // Apply gravity after the jump duration
-            hitbox.y += 1;  // Adjust the gravity speed
+            if (cooldown >= 3)
+            {
+                cooldown = 0;
+                hitbox.y += 2;  // Adjust the gravity speed
+            }
         }
 
-        // Check if the player has reached the ground
-        if (hitbox.y >= 500) { // Adjust the ground level as needed
-            hitbox.y = 500; // Set the player back to the ground
+        // Check if the player has reached  ground
+        if (hitbox.y >= 350) { // Adjust the ground level as needed
+            hitbox.y = 350; // Set the player back to the ground
             isJumping = false; // Reset the jumping state
         }
     }
+    if (opponent.playerNum == 2)
+        cooldown1 = cooldown;
+    else
+        cooldown2 = cooldown;
 }
 
 void PlayerCharacter::move(unordered_set<SDL_Keycode>& pressedKeys, PlayerCharacter& opponent) {
     // Adjust keys based on player number
+    int static cooldown1 = 0;
+    int static cooldown2 = 0;
+    int cooldown;
+    if (opponent.playerNum == 2)
+        cooldown = cooldown1;
+    else
+        cooldown = cooldown2;
     if (!(isHit || isAttack))
     {
         // Inside the move function of PlayerCharacter
@@ -74,7 +105,14 @@ void PlayerCharacter::move(unordered_set<SDL_Keycode>& pressedKeys, PlayerCharac
             SDL_Rect newHitbox = hitbox;
             newHitbox.x += 1;
             if (!(SDL_HasIntersection(&newHitbox, &opponentHitbox)))
-                hitbox.x += 1;
+            {
+                cooldown += 1;
+                if (cooldown >= 2)
+                {
+                    hitbox.x += 1;
+                    cooldown = 0;
+                }
+            }
         }
 
         if (pressedKeys.count(leftKey)  && hitbox.x != 0 ) 
@@ -82,7 +120,14 @@ void PlayerCharacter::move(unordered_set<SDL_Keycode>& pressedKeys, PlayerCharac
             SDL_Rect newHitbox = hitbox;
             newHitbox.x -= 1;
             if (!(SDL_HasIntersection(&newHitbox, &opponentHitbox)))
-                hitbox.x -= 1;
+            {
+                cooldown += 1;
+                if (cooldown >= 2)
+                {
+                    hitbox.x -= 1;
+                    cooldown = 0;
+                }
+            }
         }
     }
     else if (isHit)
@@ -99,6 +144,10 @@ void PlayerCharacter::move(unordered_set<SDL_Keycode>& pressedKeys, PlayerCharac
         if (attackDuration >= 300)
             isAttack = false;
     }
+    if (opponent.playerNum == 2)
+        cooldown1 = cooldown;
+    else
+        cooldown2 = cooldown;
 }
 
 void PlayerCharacter::attackHandler(unordered_set<SDL_Keycode>& pressedKeys, PlayerCharacter& opponent)
@@ -118,8 +167,8 @@ void PlayerCharacter::attackHandler(unordered_set<SDL_Keycode>& pressedKeys, Pla
             isAttack = true;
             attackStartTime = SDL_GetTicks();
             // Define the hitbox dimensions
-            int hitboxWidth = 20;
-            int hitboxHeight = 20;
+            int hitboxWidth = 75;       //z - made hitbox bigger
+            int hitboxHeight = 75;
             int side;
 
             if (playerNum == 1)
@@ -128,7 +177,7 @@ void PlayerCharacter::attackHandler(unordered_set<SDL_Keycode>& pressedKeys, Pla
                 side = -1;
             // Calculate the hitbox position relative to the character's center right
             SDL_Rect attackHitbox = {
-                hitbox.x + side * hitbox.w,               // Right side of the character
+                hitbox.x + side * hitbox.w - side * 67,               // Right side of the character
                 hitbox.y - (hitbox.h - hitboxHeight) / 2,  // Center vertically
                 hitboxWidth,
                 hitboxHeight
@@ -151,3 +200,11 @@ void PlayerCharacter::takeDamage(int damage)
     isHit = true;
     hitStartTime = SDL_GetTicks();
 }
+
+bool PlayerCharacter::getMovingState(unordered_set<SDL_Keycode>& pressedKeys) {
+    if (pressedKeys.count(leftKey) || pressedKeys.count(rightKey))
+        return true;
+    return false;
+}
+
+//g++ -g SDLHelper.cpp Character.cpp gameloop.cpp health.cpp PlayerCharacter.cpp MatchManager.cpp main2.cpp -IC:\mingw_dev_lib\include\SDL2 -LC:\mingw_dev_lib\lib -w -lmingw32 -lSDL2main -lSDL2 -lSDL2_image
