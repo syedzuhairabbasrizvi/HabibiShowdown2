@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include <unordered_set>
+#include "animator.hpp"
 
 using namespace std;
 
@@ -19,11 +20,13 @@ public:
     bool isHit;
     int hitStartTime;
     SDL_Rect hitbox;
+    Animator neutralAnimator;
 
 public:
     // constructor
     Character(string n, int h, int s, SDL_Rect hb);
 
+    void storeNeutralFrame(SDL_Texture* frame);
 
     bool getJumpState();
 
