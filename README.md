@@ -3,6 +3,8 @@ An Object Oriented Programming and Design Methodologies project for the course O
 
 Current status: shows an image saved in downloads.
 
+REFER TO ZIP FILE FOR MOST RECENT VERSION!
+
 Update image path according to your machine (line 55).
 
 Compile command:
