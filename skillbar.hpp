@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-class SkillBar {
+class SkillBar { //we really wish we could implement this class + a couple classes for special moves, but the workload was just too much. apologies
 private:
     int value;
 

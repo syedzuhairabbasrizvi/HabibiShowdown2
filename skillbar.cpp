@@ -2,7 +2,7 @@
 
 SkillBar::SkillBar(int s) : value(s) {}
 
-void SkillBar::displaySkillBar() const {
+void SkillBar::displaySkillBar() const { //this class is very arbitrary
     std::cout << "Skill Bar: " << value << "\n";
 }
 

@@ -1,14 +1,14 @@
 #include "MatchManager.hpp"
 
-// Constructor implementation
+//constructor implementation
 MatchManager::MatchManager(const string initialState) : gameState(initialState) {}
 
-// Function to print the game state implementation
+//function to print the game state implementation, used for error checking
 void MatchManager::printGameState() const 
 {
     std::cout << "Current Game State: " << gameState << std::endl;
 }
-
+//following are self explanatory
 string MatchManager::getGameState() const
 {
     return gameState;

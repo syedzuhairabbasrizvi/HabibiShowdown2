@@ -8,9 +8,10 @@
 
 using namespace std;
 
-class MatchManager {
+class MatchManager { //this just stores the state of the game tbh, easier to manage this way
 private:
     string gameState;
+    
 
 public:
     // Constructor
